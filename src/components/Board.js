@@ -126,7 +126,7 @@ export default class Board extends React.Component {
     if (newPlayerInCheck) {
       const noValidMovesLeft = false;
       if (noValidMovesLeft) {
-        console.log(`Checkmate, setting winner because current player ${currentPlayer} does not have valid moves`);
+        console.log(`Checkmate, ${currentPlayer} won because ${newCurrentPlayer} does not have valid moves`);
         return this.setState({
           winner: currentPlayer === 'W' ? 'B' : 'W',
         });

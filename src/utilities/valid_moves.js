@@ -81,6 +81,13 @@ function calculatePawnPositions({ startingPos, board, pieceName }) {
 
   if (withinBound(frontCoord) && isSquareEmpty(frontCoord, board)) {
     validPositions.push(frontCoord);
+
+    const pawnHasntMoved = (isWhitePawn && i === 6) || (!isWhitePawn && i === 1);
+
+    // if pawn hasn't moved, can move two to the front
+    if (pawnHasntMoved && isSquareEmpty(frontTwo, board)) {
+      validPositions.push(frontTwo);
+    }
   }
 
   [frontRight, frontLeft].forEach((pos) => {
@@ -88,13 +95,6 @@ function calculatePawnPositions({ startingPos, board, pieceName }) {
       validPositions.push(pos);
     }
   });
-
-  const pawnHasntMoved = (isWhitePawn && i === 6) || (!isWhitePawn && i === 1);
-
-  // if pawn hasn't moved, can move two to the front
-  if (pawnHasntMoved && isSquareEmpty(frontTwo, board)) {
-    validPositions.push(frontTwo);
-  }
 
   return validPositions;
 }
