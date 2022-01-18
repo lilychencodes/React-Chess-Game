@@ -1,10 +1,36 @@
+.game-play-container {
+  display: flex;
+}
+
+.game-play-history {
+  margin-left: 20px;
+  flex: 1;
+}
+
 .board {
-  display: grid;
-  grid-template-columns: repeat(8, 75px);
-  grid-auto-rows: 75px;
+  .board-row {
+    display: flex;
+    align-items: center;
+  }
+
+  .board-row-column-label {
+    margin-left: 30px;
+  }
+
+  .board-row-number {
+    width: 30px;
+  }
+
+  .board-column-letter {
+    width: 75px;
+    height: 30px;
+  }
 }
 
 .board-square {
+  height: 75px;
+  width: 75px;
+
   &:hover {
     cursor: pointer;
   }

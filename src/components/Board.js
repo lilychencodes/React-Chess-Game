@@ -48,6 +48,7 @@ export default class Board extends React.Component {
       winner: null,
       currentPlayerInCheck: false,
       capturedPieces: [],
+      gamePlay: {}, // This should be a Tree to track diff branches
     };
   }
 
@@ -134,31 +135,68 @@ export default class Board extends React.Component {
     }
   }
 
+  goToMove(idx, moveKey) {
+    const { gamePlay } = this.state;
+  }
+
   render() {
-    const { board, currentlyClickedPiecePosition, validNewPositions, winner, currentPlayerInCheck, currentPlayer, capturedPieces } = this.state;
+    const {
+      board,
+      currentlyClickedPiecePosition,
+      validNewPositions,
+      winner,
+      currentPlayerInCheck,
+      currentPlayer,
+      capturedPieces,
+      gamePlay,
+    } = this.state;
 
     return (
       <div>
-        <div className="board">
-          {board.map((row, i) => {
-            return (
-              row.map((square, j) => {
-                const image = pieceToPic[square.name];
-                const isClicked = currentlyClickedPiecePosition && (currentlyClickedPiecePosition[0] === i && currentlyClickedPiecePosition[1] === j);
-                const isValidNewPosition = !!validNewPositions.find((pos) => (pos[0] === i && pos[1] === j));
-                const kingInCheckPiece = square.name && square.name.toLowerCase() === 'k' && currentPlayerInCheck && square.color === currentPlayer;
-                const isLightSquare = (i % 2 === 0 && j % 2 === 0) || (i % 2 !== 0 && j % 2 !== 0);
-                return (
-                  <div
-                    className={`board-square ${isLightSquare ? 'board-square-light' : 'board-square-dark'} ${kingInCheckPiece && 'board-square-check'} ${isClicked && 'board-square-highlight'} ${isValidNewPosition && 'board-square-new-potential-position'}`}
-                    onClick={() => this.handleSquareClick([i, j])}
-                    key={`${i}-${j}`}>
-                    {image ? <img src={image} className="square-piece" /> : null}
-                  </div>
-                )
-              })
-            )
-          })}
+        <div className="game-play-container">
+          <div className="board">
+            <div className="board-row board-row-column-label">
+              {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].map((letter) => (
+                <div key={letter} className="board-column-letter">{letter}</div>
+              ))}
+            </div>
+            {board.map((row, i) => {
+              return (
+                <div key={i} className="board-row">
+                  <div className="board-row-number">{8 - i}</div>
+                  {row.map((square, j) => {
+                    const image = pieceToPic[square.name];
+                    const isClicked = currentlyClickedPiecePosition && (currentlyClickedPiecePosition[0] === i && currentlyClickedPiecePosition[1] === j);
+                    const isValidNewPosition = !!validNewPositions.find((pos) => (pos[0] === i && pos[1] === j));
+                    const kingInCheckPiece = square.name && square.name.toLowerCase() === 'k' && currentPlayerInCheck && square.color === currentPlayer;
+                    const isLightSquare = (i % 2 === 0 && j % 2 === 0) || (i % 2 !== 0 && j % 2 !== 0);
+                    return (
+                      <div
+                        className={`board-square ${isLightSquare ? 'board-square-light' : 'board-square-dark'} ${kingInCheckPiece && 'board-square-check'} ${isClicked && 'board-square-highlight'} ${isValidNewPosition && 'board-square-new-potential-position'}`}
+                        onClick={() => this.handleSquareClick([i, j])}
+                        key={`${i}-${j}`}>
+                        {image ? <img src={image} className="square-piece" /> : null}
+                      </div>
+                    )})}
+                </div>
+              )
+            })}
+          </div>
+          <div className="game-play-history">
+            <p>Game Play</p>
+            <p>{currentPlayer === 'W' ? "White's" : "Black's"} turn</p>
+            {Object.keys(gamePlay).map((moveKey, idx) => {
+              return (
+                <div
+                  key={`${idx}-${moveKey}`}
+                  className="game-play-move"
+                  onClick={() => this.goToMove(idx, moveKey)}
+                >
+                  {moveKey}
+                </div>
+              )
+            })}
+          </div>
         </div>
         <div className="captured-pieces">
           {capturedPieces.map((piece, idx) => {
