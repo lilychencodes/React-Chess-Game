@@ -18,7 +18,7 @@ export function validMoves({ startingPos, board }) {
   const [i, j] = startingPos;
   const piece = board[i][j];
 
-  const pieceName = piece.piece;
+  const pieceName = piece.name;
 
   switch (pieceName.toLowerCase()) {
     case 'p':
@@ -79,7 +79,7 @@ function calculatePawnPositions({ startingPos, board, pieceName }) {
 }
 
 function calculateKnightPositions({ startingPos, board }) {
-  const directions = [[-2, -1], [-2, 1], [2, -1], [2, 1]];
+  const directions = [[-2, -1], [-2, 1], [2, -1], [2, 1], [1, 2], [1, -2], [-1, 2], [-1, -2]];
 
   return calculatePositionsWithDirections({ startingPos, board, directions });
 }

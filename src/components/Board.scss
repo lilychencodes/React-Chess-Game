@@ -19,9 +19,26 @@
   &.board-square-new-potential-position {
     background-color: green;
   }
+
+  &.board-square-check {
+    background-color: red;
+  }
 }
 
 .square-piece {
   width: 75px;
   height: 75px;
+}
+
+.winner {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  color: red;
+  font-weight: bold;
+}
+
+.captured-pieces {
+  display: flex;
+  flex-wrap: wrap;
 }
