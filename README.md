@@ -1,6 +1,6 @@
 # Online Chess Game with React
 
-![image](https://user-images.githubusercontent.com/9043536/150020941-7da1b561-f9eb-4d3a-b3a5-d962d0f5200f.png)
+<img src="https://user-images.githubusercontent.com/9043536/150035157-e4482617-ba17-48ba-a37a-d524bdeac634.png" alt="chess board" width="600" />
 
 To play: clone repository and run `npm start`.
 - [ ] TODO: Host this project on Firebase
@@ -18,6 +18,8 @@ This little project will continue to evolve as my skills as an engineer evolve w
 Without further ado, here are the functionalities of the current product and what's coming up in the roadmap:
 
 ## Features
+<img src="https://user-images.githubusercontent.com/9043536/150020941-7da1b561-f9eb-4d3a-b3a5-d962d0f5200f.png" alt="chess board" width="600" />
+
 - [x] Basic rules are built in so players cannot make illegal moves.
 - [x] Legal moves are highlighted when a piece is selected.
 - [x] If the king is in check, player must move the king out of check
