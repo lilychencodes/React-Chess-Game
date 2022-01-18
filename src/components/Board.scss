@@ -5,23 +5,28 @@
 }
 
 .board-square {
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
-
   &:hover {
     cursor: pointer;
   }
 
-  &.board-square-highlight {
-    background-color: yellow;
+  &.board-square-light {
+    background-color: sandybrown;
+  }
+
+  &.board-square-dark {
+    background-color: saddlebrown;
   }
 
   &.board-square-new-potential-position {
-    background-color: green;
+    background-color: lightgreen;
   }
 
   &.board-square-check {
     background-color: red;
+  }
+
+  &.board-square-highlight {
+    background-color: yellow;
   }
 }
 

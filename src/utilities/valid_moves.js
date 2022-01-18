@@ -1,3 +1,6 @@
+import { copyBoardAndMovePiece } from './board';
+import { isKingInCheck } from './check';
+
 function withinBound(coord) {
   return coord[0] >= 0 && coord[0] <= 7 && coord[1] >= 0 && coord[1] <= 7;
 }
@@ -14,37 +17,55 @@ function squareContainsEnemy({ pos, board, startingPosPiece }) {
   return containsEnemy;
 }
 
-export function validMoves({ startingPos, board }) {
+export function validMoves({ startingPos, board, currentPlayer }) {
   const [i, j] = startingPos;
   const piece = board[i][j];
 
   const pieceName = piece.name;
 
+  let potentialPositions = [];
+
   switch (pieceName.toLowerCase()) {
     case 'p':
-      return calculatePawnPositions({ startingPos, board, pieceName });
+      potentialPositions = calculatePawnPositions({ startingPos, board, pieceName });
+      break;
     case 'n':
-      return calculateKnightPositions({ startingPos, board });
+      potentialPositions = calculateKnightPositions({ startingPos, board });
+      break;
     case 'k':
-      return calculateKingPositions({ startingPos, board });
+      potentialPositions = calculateKingPositions({ startingPos, board });
+      break;
     case 'r':
-      return calculateRookPositions({ startingPos, board });
+      potentialPositions = calculateRookPositions({ startingPos, board });
+      break;
     case 'b':
-      return calculateBishopPositions({ startingPos, board });
+      potentialPositions = calculateBishopPositions({ startingPos, board });
+      break;
     case 'q':
-      return calculateQueenPositions({ startingPos, board });
+      potentialPositions = calculateQueenPositions({ startingPos, board });
+      break;
     default:
       return [];
   }
-}
 
-export function isValidMove({ newPos, startingPos, currentPlayer, board }) {
-  // if moving to square containing a piece of same color as currentPlayer return false
-  const newPosPiece = board[newPos[0]][newPos[1]];
-  if (newPosPiece.color === currentPlayer) return false;
+  // avoids infinite loop because isKingInCheck calls currentPlayerKingInEnemyPieceValidMoves, which calls this function
+  if (!currentPlayer) {
+    return potentialPositions;
+  }
 
-  const validPositions = validMoves({ startingPos, board });
-  return !!validPositions.find((pos) => pos[0] == newPos[0] && pos[1] === newPos[1]);
+  const validPositions = [];
+
+  potentialPositions.forEach((newPos) => {
+    // TODO: valid move cannot put king in check (for opponent to kill king)
+    // regardless of if king currently in check, move to new pos, check to see if king in check when piece in new pos
+    const newBoard = copyBoardAndMovePiece({ board, oldPos: startingPos, newPos });
+    const willCurrentPlayerKingBeInCheckAfterMove = isKingInCheck({ board: newBoard, currentPlayer });
+    if (!willCurrentPlayerKingBeInCheckAfterMove) {
+      validPositions.push(newPos);
+    }
+  });
+
+  return validPositions;
 }
 
 function calculatePawnPositions({ startingPos, board, pieceName }) {

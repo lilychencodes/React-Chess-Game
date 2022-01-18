@@ -1,7 +1,7 @@
 import React from 'react';
 
-import initializeBoard from '../utilities/initialize_board';
-import { isValidMove, validMoves } from '../utilities/valid_moves';
+import { initializeBoard, copyBoardAndMovePiece } from '../utilities/board';
+import { validMoves } from '../utilities/valid_moves';
 import { isKingInCheck } from '../utilities/check';
 
 import KingB from '../pieces/king_b.png';
@@ -52,7 +52,7 @@ export default class Board extends React.Component {
   }
 
   handleSquareClick(position) {
-    const { currentlyClickedPiecePosition, board, currentPlayer, winner, currentPlayerInCheck, capturedPieces } = this.state;
+    const { currentlyClickedPiecePosition, board, currentPlayer, winner, capturedPieces } = this.state;
 
     if (winner) return;
 
@@ -61,13 +61,13 @@ export default class Board extends React.Component {
     const positionContainsPiece = !!piece;
 
     // if it's not your turn and you pick up your color, do nothing
-    // if picking up a piece and king in check, must pick up king
+    // if picking up a piece and king in check, must pick up king, or move another piece so king no longer in check
     // if it's picking up a piece, set currentlyClickedPiecePosition to position (for highlight)
     const isPickingUpPiece = !currentlyClickedPiecePosition && positionContainsPiece;
-    if (isPickingUpPiece && piece.color === currentPlayer) {
-      if (currentPlayerInCheck && piece.name.toLowerCase() !== 'k') return;
 
-      const validNewPositions = validMoves({ startingPos: [i, j], board });
+    if (isPickingUpPiece && piece.color === currentPlayer) {
+      const validNewPositions = validMoves({ startingPos: [i, j], board, currentPlayer });
+
       return this.setState({
         currentlyClickedPiecePosition: [i, j],
         validNewPositions,
@@ -87,26 +87,9 @@ export default class Board extends React.Component {
 
     if (!isDroppingOffPiece) return;
 
-    const canMove = isValidMove({
-      newPos: position,
-      startingPos: currentlyClickedPiecePosition,
-      currentPlayer,
-      board,
-    });
+    const canMove = !!this.state.validNewPositions.find((pos) => pos[0] == i && pos[1] === j);
 
     if (!canMove) return;
-
-    const newBoard = [];
-    board.forEach((row, rowIdx) => {
-      newBoard.push([]);
-      row.forEach((square, colIdx) => {
-        newBoard[rowIdx].push(square)
-      });
-    });
-
-    const pickedPiece = board[currentlyClickedPiecePosition[0]][currentlyClickedPiecePosition[1]];
-    newBoard[i][j] = pickedPiece;
-    newBoard[currentlyClickedPiecePosition[0]][currentlyClickedPiecePosition[1]] = '';
 
     if (piece) {
       // add to list of captured pieces
@@ -119,6 +102,7 @@ export default class Board extends React.Component {
 
       // if king got killed, game over
       if (piece.name.toLowerCase() === 'k') {
+        console.log('Checkmate, setting winner because captured opponent king');
         this.setState({
           winner: currentPlayer,
         });
@@ -126,13 +110,28 @@ export default class Board extends React.Component {
     }
 
     const newCurrentPlayer = currentPlayer === 'W' ? 'B' : 'W';
+
+    const newBoard = copyBoardAndMovePiece({ board, oldPos: currentlyClickedPiecePosition, newPos: position });
+
+    const newPlayerInCheck = isKingInCheck({ board: newBoard, currentPlayer: newCurrentPlayer });
     this.setState({
       currentPlayer: newCurrentPlayer,
       board: newBoard,
       currentlyClickedPiecePosition: null,
       validNewPositions: [],
-      currentPlayerInCheck: isKingInCheck({ board: newBoard, currentPlayer: newCurrentPlayer }),
+      currentPlayerInCheck: newPlayerInCheck,
     });
+
+    // Check for check mate
+    if (newPlayerInCheck) {
+      const noValidMovesLeft = false;
+      if (noValidMovesLeft) {
+        console.log(`Checkmate, setting winner because current player ${currentPlayer} does not have valid moves`);
+        return this.setState({
+          winner: currentPlayer === 'W' ? 'B' : 'W',
+        });
+      }
+    }
   }
 
   render() {
@@ -148,9 +147,10 @@ export default class Board extends React.Component {
                 const isClicked = currentlyClickedPiecePosition && (currentlyClickedPiecePosition[0] === i && currentlyClickedPiecePosition[1] === j);
                 const isValidNewPosition = !!validNewPositions.find((pos) => (pos[0] === i && pos[1] === j));
                 const kingInCheckPiece = square.name && square.name.toLowerCase() === 'k' && currentPlayerInCheck && square.color === currentPlayer;
+                const isLightSquare = (i % 2 === 0 && j % 2 === 0) || (i % 2 !== 0 && j % 2 !== 0);
                 return (
                   <div
-                    className={`board-square ${kingInCheckPiece && 'board-square-check'} ${isClicked && 'board-square-highlight'} ${isValidNewPosition && 'board-square-new-potential-position'}`}
+                    className={`board-square ${isLightSquare ? 'board-square-light' : 'board-square-dark'} ${kingInCheckPiece && 'board-square-check'} ${isClicked && 'board-square-highlight'} ${isValidNewPosition && 'board-square-new-potential-position'}`}
                     onClick={() => this.handleSquareClick([i, j])}
                     key={`${i}-${j}`}>
                     {image ? <img src={image} className="square-piece" /> : null}
