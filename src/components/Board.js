@@ -131,12 +131,12 @@ export default class Board extends React.Component {
       board: newBoard,
       currentlyClickedPiecePosition: null,
       validNewPositions: [],
-      currentPlayerInCheck: isKingInCheck({ board, currentPlayer: newCurrentPlayer }),
+      currentPlayerInCheck: isKingInCheck({ board: newBoard, currentPlayer: newCurrentPlayer }),
     });
   }
 
   render() {
-    const { board, currentlyClickedPiecePosition, validNewPositions, winner, currentPlayerInCheck, capturedPieces } = this.state;
+    const { board, currentlyClickedPiecePosition, validNewPositions, winner, currentPlayerInCheck, currentPlayer, capturedPieces } = this.state;
 
     return (
       <div>
@@ -147,10 +147,10 @@ export default class Board extends React.Component {
                 const image = pieceToPic[square.name];
                 const isClicked = currentlyClickedPiecePosition && (currentlyClickedPiecePosition[0] === i && currentlyClickedPiecePosition[1] === j);
                 const isValidNewPosition = !!validNewPositions.find((pos) => (pos[0] === i && pos[1] === j));
-                const kingInCheckPiece = square.name && square.name.toLowerCase() === 'k' && currentPlayerInCheck;
+                const kingInCheckPiece = square.name && square.name.toLowerCase() === 'k' && currentPlayerInCheck && square.color === currentPlayer;
                 return (
                   <div
-                    className={`board-square ${isClicked && 'board-square-highlight'} ${isValidNewPosition && 'board-square-new-potential-position'} ${kingInCheckPiece && 'board-square-check'}`}
+                    className={`board-square ${kingInCheckPiece && 'board-square-check'} ${isClicked && 'board-square-highlight'} ${isValidNewPosition && 'board-square-new-potential-position'}`}
                     onClick={() => this.handleSquareClick([i, j])}
                     key={`${i}-${j}`}>
                     {image ? <img src={image} className="square-piece" /> : null}
