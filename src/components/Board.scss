@@ -1,0 +1,27 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, 75px);
+  grid-auto-rows: 75px;
+}
+
+.board-square {
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.board-square-highlight {
+    background-color: yellow;
+  }
+
+  &.board-square-new-potential-position {
+    background-color: green;
+  }
+}
+
+.square-piece {
+  width: 75px;
+  height: 75px;
+}
