@@ -1,70 +1,35 @@
-# Getting Started with Create React App
+# Online Chess Game with React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![image](https://user-images.githubusercontent.com/9043536/150020941-7da1b561-f9eb-4d3a-b3a5-d962d0f5200f.png)
 
-## Available Scripts
+To play: clone repository and run `npm start`.
+[] TODO: Host this project on Firebase
 
-In the project directory, you can run:
+## Note from author
+This little repo is my pet project. You may ask me, "why chess? Isn't it a little overdone?"
+Well, you are not wrong. But here's the cool thing about chess. It could be as simple and complex as you want it to be.
 
-### `npm start`
+**It's a fun project for programmers of any skill level.**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+It was one of the very first projects I had to do when I was studying programming at App Academy. Back then, all I had to do was make something display in the terminal with basic rules built in.
+Now, my plan to make this into a polished, performant, user-friendly product with many nice-to-have features.
+This little project will continue to evolve as my skills as an engineer evolve with time.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Without further ado, here are the functionalities of the current product and what's coming up in the roadmap:
 
-### `npm test`
+## Features
+[] Basic rules are built in so players cannot make illegal moves.
+[] Legal moves are highlighted when a piece is selected.
+[] If the king is in check, player must move the king out of check
+[] If the king is in check and there are no valid moves, the king is checkmated and the game is over.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Roadmap
+[] Castling
+[] En passant
+[] Ability to go back to any prior moves and replay the game from then
+[] Ability to take back the last move made
+[] Ability to "fork" a new branch of the game from any prior move
+[] Drag and drop pieces
+[] Convert to TypeScript
+[] Add unit tests
+[] Add ability to play against computer
