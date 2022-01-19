@@ -23,7 +23,7 @@ Without further ado, here are the functionalities of the current product and wha
 - [x] Basic rules are built in so players cannot make illegal moves.
 - [x] Legal moves are highlighted when a piece is selected.
 - [x] If the king is in check, player must move the king out of check
-- [x] If the king is in check and there are no valid moves, the king is checkmated and the game is over.
+- [ ] If the king is in check and there are no valid moves, the king is checkmated and the game is over.
 
 ## Roadmap
 - [ ] Castling
